@@ -7,7 +7,7 @@ import { APP_DATA } from "../data/appData";
 
 const AllAppsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [query, setQuery] = useState("");   // final search
+  const [query, setQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("none");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,29 +17,36 @@ const AllAppsPage = () => {
     setSearchTerm(e.target.value);
   };
 
-  // 🔹 ENTER press search
+  // 🔹 Enter press search
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     setTimeout(() => {
-      setQuery(searchTerm);   // apply search
+      setQuery(searchTerm);
       setIsLoading(false);
     }, 400);
   };
 
+  // 🔹 Sorting loader
   const handleSortChange = (e) => {
     const value = e.target.value;
-    setSortOrder(value);
+
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setSortOrder(value);
+      setIsLoading(false);
+    }, 400);
   };
 
   const displayedApps = useMemo(() => {
     let apps = APP_DATA;
 
     if (query) {
-      const lowerCaseSearchTerm = query.toLowerCase();
+      const lower = query.toLowerCase();
       apps = apps.filter((app) =>
-        app.title.toLowerCase().includes(lowerCaseSearchTerm)
+        app.title.toLowerCase().includes(lower)
       );
     }
 
@@ -68,7 +75,9 @@ const AllAppsPage = () => {
   return (
     <div className="py-12">
       <div className="text-center mb-10">
-        <h1 className="text-5xl font-extrabold text-gray-900">Our All Applications</h1>
+        <h1 className="text-5xl font-extrabold text-gray-900">
+          Our All Applications
+        </h1>
         <p className="text-lg text-gray-500 mt-2 max-w-2xl mx-auto">
           Explore All Apps On The Market Developed By Us
         </p>
@@ -76,7 +85,7 @@ const AllAppsPage = () => {
 
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 p-4 bg-white rounded-xl shadow-md border border-gray-200">
 
-        {/* 🔹 Search Form */}
+        {/* 🔹 Search */}
         <form
           onSubmit={handleSearchSubmit}
           className="relative w-full md:w-80 mb-4 md:mb-0"
@@ -92,6 +101,7 @@ const AllAppsPage = () => {
           />
         </form>
 
+        {/* 🔹 Sort */}
         <div className="relative flex items-center w-full md:w-auto">
           <label className="text-gray-600 font-medium mr-2 whitespace-nowrap">
             Sort by Downloads:
@@ -118,12 +128,18 @@ const AllAppsPage = () => {
       ) : displayedApps.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {displayedApps.map((app) => (
-            <AppCard key={app.id} app={app} onDetailsClick={() => handleDetailsClick(app.id)} />
+            <AppCard
+              key={app.id}
+              app={app}
+              onDetailsClick={() => handleDetailsClick(app.id)}
+            />
           ))}
         </div>
       ) : (
         <div className="text-center py-20 bg-white rounded-xl shadow-md">
-          <h3 className="text-3xl font-bold text-gray-700 mb-2">No App Found</h3>
+          <h3 className="text-3xl font-bold text-gray-700 mb-2">
+            No App Found
+          </h3>
           <p className="text-gray-500">
             We couldn't find any app matching "{query}".
           </p>
