@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { XCircle, ArrowLeft, Star, Download, Activity } from "lucide-react";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { APP_DATA, CHART_DATA, formatCount } from "../data/appData";
+import NotFound from "../components/NotFound";
 
 const AppDetailsPage = ({ installedApps, installApp, uninstallApp }) => {
   const { id } = useParams();
@@ -18,20 +19,7 @@ const AppDetailsPage = ({ installedApps, installApp, uninstallApp }) => {
 
   if (!app) {
     return (
-      <div className="text-center py-20 bg-white rounded-xl shadow-md mt-12">
-        <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-        <h3 className="text-3xl font-bold text-gray-800 mb-2">App Not Found</h3>
-        <p className="text-gray-500">
-          The requested application ID ({appId}) is invalid or does not exist in our directory.
-        </p>
-        <button
-          onClick={() => navigate("/apps")}
-          className="mt-6 inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition duration-300 shadow-lg"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to All Apps
-        </button>
-      </div>
+      < NotFound/>
     );
   }
 

@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router";
-import NotFound from "../assets/App-Error.png"
+import appErrorImage from "../assets/App-Error.png"
 
 
 const NotFound = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center px-4">
       <img
-        src={NotFound}
+        src={appErrorImage}
         alt="Page Not Found"
         className="w-80 md:w-96 mb-6"
       />

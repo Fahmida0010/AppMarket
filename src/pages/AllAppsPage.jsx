@@ -5,29 +5,44 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import AppCard from "../components/AppCard";
 import { APP_DATA } from "../data/appData";
 
-
-const AllAppsPage = ({ isLoading, setIsLoading }) => {
+const AllAppsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [query, setQuery] = useState("");   // final search
   const [sortOrder, setSortOrder] = useState("none");
-  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
+
   const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
+    setSearchTerm(e.target.value);
   };
+
+  // 🔹 ENTER press search
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setQuery(searchTerm);   // apply search
+      setIsLoading(false);
+    }, 400);
+  };
+
   const handleSortChange = (e) => {
     const value = e.target.value;
     setSortOrder(value);
   };
+
   const displayedApps = useMemo(() => {
     let apps = APP_DATA;
 
-    // 1. Filtering Logic
-    if (searchTerm) {
-      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    if (query) {
+      const lowerCaseSearchTerm = query.toLowerCase();
       apps = apps.filter((app) =>
         app.title.toLowerCase().includes(lowerCaseSearchTerm)
       );
     }
+
     if (sortOrder !== "none") {
       apps = [...apps].sort((a, b) => {
         if (sortOrder === "high-low") return b.downloads - a.downloads;
@@ -37,7 +52,8 @@ const AllAppsPage = ({ isLoading, setIsLoading }) => {
     }
 
     return apps;
-  }, [searchTerm, sortOrder]);
+  }, [query, sortOrder]);
+
   const sortIcon =
     sortOrder === "high-low" ? (
       <ArrowDown className="w-4 h-4 ml-2" />
@@ -57,9 +73,16 @@ const AllAppsPage = ({ isLoading, setIsLoading }) => {
           Explore All Apps On The Market Developed By Us
         </p>
       </div>
+
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 p-4 bg-white rounded-xl shadow-md border border-gray-200">
-        <div className="relative w-full md:w-80 mb-4 md:mb-0">
+
+        {/* 🔹 Search Form */}
+        <form
+          onSubmit={handleSearchSubmit}
+          className="relative w-full md:w-80 mb-4 md:mb-0"
+        >
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+
           <input
             type="text"
             placeholder="Search apps by title..."
@@ -67,14 +90,14 @@ const AllAppsPage = ({ isLoading, setIsLoading }) => {
             onChange={handleSearchChange}
             className="w-full py-3 pl-10 pr-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150"
           />
-        </div>
+        </form>
 
         <div className="relative flex items-center w-full md:w-auto">
-          <label htmlFor="sort-downloads" className="text-gray-600 font-medium mr-2 whitespace-nowrap">
+          <label className="text-gray-600 font-medium mr-2 whitespace-nowrap">
             Sort by Downloads:
           </label>
+
           <select
-            id="sort-downloads"
             value={sortOrder}
             onChange={handleSortChange}
             className="appearance-none block w-full py-3 pl-3 pr-10 border border-gray-300 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
@@ -83,12 +106,12 @@ const AllAppsPage = ({ isLoading, setIsLoading }) => {
             <option value="high-low">High to Low</option>
             <option value="low-high">Low to High</option>
           </select>
+
           <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
             {sortIcon || <ArrowDown className="w-4 h-4" />}
           </span>
         </div>
       </div>
-
 
       {isLoading ? (
         <LoadingSpinner />
@@ -99,11 +122,10 @@ const AllAppsPage = ({ isLoading, setIsLoading }) => {
           ))}
         </div>
       ) : (
-
         <div className="text-center py-20 bg-white rounded-xl shadow-md">
-          <h3 className="text-3xl font-bold text-gray-700 mb-2">No App Found </h3>
+          <h3 className="text-3xl font-bold text-gray-700 mb-2">No App Found</h3>
           <p className="text-gray-500">
-            We couldn't find any app matching "{searchTerm}". Please try a different search term.
+            We couldn't find any app matching "{query}".
           </p>
         </div>
       )}
@@ -112,5 +134,3 @@ const AllAppsPage = ({ isLoading, setIsLoading }) => {
 };
 
 export default AllAppsPage;
-
-
