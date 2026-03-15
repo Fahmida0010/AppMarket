@@ -10,6 +10,7 @@ import AppDetailsPage from "./pages/AppDetailsPage";
 import MyInstalledAppsPage from "./pages/MyInstalledAppsPage";
 import ErrorPage from "./pages/ErrorPage";
 import { APP_DATA } from "./data/appData";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   const getInitialInstalledApps = () => {
@@ -96,6 +97,8 @@ const App = () => {
           />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
+         <Route path="*" element={<NotFound />} />
+      </Routes>
       </main>
 
       <Footer />

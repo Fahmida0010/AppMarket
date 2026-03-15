@@ -52,14 +52,15 @@ const Header = () => {
             })}
           </nav>
 
-
-          <button
-            className="ml-4 inline-flex items-center px-4 py-2 text-sm font-medium 
-             text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 
-             transition duration-300"
-          >
-            Contribute
-          </button>
+<a href="https://github.com/Fahmida0010" target="_blank" rel="noopener noreferrer">
+  <button 
+    className="ml-4 inline-flex items-center px-4 py-2 text-sm font-medium 
+               text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 
+               transition duration-300"
+  >
+    Contribute
+  </button>
+</a>
 
 
         </div>

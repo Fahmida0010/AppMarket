@@ -9,7 +9,7 @@ const Footer = () => {
         <div className=" grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 text-sm text-gray-400">
          <div className="col-span-2"> 
             <div className="flex items-center space-x-3 mb-3 border-b border-gray-700 pb-2"> 
-                <img src="src/assets/logo.png " alt="logo" className="w-10 h-10 object-contain"/> 
+                <img src="src/assets/logo.png" alt="logo" className="w-10 h-10 object-contain"/> 
                 <h3 className="text-lg font-semibold text-white"> 
                     Hero Apps
                 </h3>
